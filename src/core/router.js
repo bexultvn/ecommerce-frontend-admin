@@ -13,6 +13,24 @@ const routes = {
   '/orders':    () => import('../pages-js/orders.js'),
 };
 
+const dynamicRoutes = [
+  {
+    pattern: /^\/products\/(.+)$/,
+    loader: () => import('../pages-js/productDetail.js'),
+    paramKey: 'id'
+  },
+  {
+    pattern: /^\/customers\/(.+)$/,
+    loader: () => import('../pages-js/customerDetail.js'),
+    paramKey: 'id'
+  },
+  {
+    pattern: /^\/orders\/(.+)$/,
+    loader: () => import('../pages-js/orderDetail.js'),
+    paramKey: 'id'
+  },
+];
+
 function parseHash() {
   const hash = window.location.hash.slice(1) || '/';
   const [pathWithQuery, ...rest] = hash.split('?');
@@ -46,12 +64,28 @@ async function handleRoute() {
     return;
   }
 
-  const loader = routes[basePath] || routes['/dashboard'];
+  // Check dynamic routes first (e.g. /products/:id)
+  let loader = null;
+  const routeParams = { ...params };
+
+  for (const route of dynamicRoutes) {
+    const match = path.match(route.pattern);
+    if (match) {
+      loader = route.loader;
+      routeParams[route.paramKey] = match[1];
+      break;
+    }
+  }
+
+  if (!loader) {
+    loader = routes[basePath] || routes['/dashboard'];
+  }
+
   try {
     const module = await loader();
     const { template, init } = module;
     app.innerHTML = template;
-    if (typeof init === 'function') await init(params);
+    if (typeof init === 'function') await init(routeParams);
   } catch (err) {
     console.error('Router error:', err);
     app.innerHTML = `<div class="p-8 text-center text-red-600">Page failed to load. <a href="#/dashboard" class="underline">Go to dashboard</a></div>`;

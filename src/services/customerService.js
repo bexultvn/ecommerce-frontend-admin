@@ -8,7 +8,8 @@ function normalize(c) {
     firstName: c.firstName || c.firstname,
     lastName: c.lastName || c.lastname,
     email: c.email,
-    address: c.address || { street: '', houseNumber: '', zipCode: '' }
+    address: c.address || { street: '', houseNumber: '', zipCode: '' },
+    registeredDate: c.registeredDate || null
   };
 }
 
