@@ -8,7 +8,7 @@ export const template = `
   <div class="max-w-5xl mx-auto">
     <div id="customer-detail-content">
       <div class="flex items-center justify-center py-20">
-        <div class="animate-spin w-8 h-8 border-2 border-orange-600 border-t-transparent rounded-full"></div>
+        <div class="animate-spin w-8 h-8 border-2 border-red-500 border-t-transparent rounded-full"></div>
       </div>
     </div>
   </div>

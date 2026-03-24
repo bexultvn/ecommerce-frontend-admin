@@ -15,10 +15,10 @@ function getSidebarHTML() {
     return `
       <a href="${href}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${
         active
-          ? 'bg-orange-600 text-white shadow-sm'
-          : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+          ? 'bg-red-500 text-white shadow-sm'
+          : 'text-gray-400 hover:bg-slate-800 hover:text-white'
       }">
-        <span class="${active ? 'text-white' : 'text-slate-500'}">${iconSVG}</span>
+        <span class="${active ? 'text-white' : 'text-gray-500'}">${iconSVG}</span>
         ${label}
       </a>
     `;
@@ -34,7 +34,7 @@ function getSidebarHTML() {
       <!-- Brand -->
       <div class="px-5 py-5 border-b border-slate-800">
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div class="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0">
             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
             </svg>
@@ -45,7 +45,7 @@ function getSidebarHTML() {
 
       <!-- Nav -->
       <nav class="flex-1 px-3 py-5 space-y-1">
-        <p class="text-xs font-semibold text-slate-600 uppercase tracking-wider px-3 mb-3">Main Menu</p>
+        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wider px-3 mb-3">Main Menu</p>
         ${navItem('#/dashboard', 'Dashboard', `
           <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM14 13a1 1 0 011-1h4a1 1 0 011 1v5a1 1 0 01-1 1h-4a1 1 0 01-1-1v-5z"/>
@@ -71,15 +71,15 @@ function getSidebarHTML() {
       <!-- User -->
       <div class="px-4 py-4 border-t border-slate-800">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-orange-600 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">
+          <div class="w-9 h-9 rounded-full bg-red-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">
             ${initial}
           </div>
           <div class="flex-1 min-w-0">
             <p class="text-sm font-semibold text-white truncate">${displayName}</p>
-            <p class="text-xs text-slate-500 truncate">${user?.email || ''}</p>
+            <p class="text-xs text-gray-500 truncate">${user?.email || ''}</p>
           </div>
           <button id="sidebar-logout" title="Logout"
-            class="text-slate-500 hover:text-red-400 transition-colors flex-shrink-0 p-1 rounded-md hover:bg-slate-800">
+            class="text-gray-500 hover:text-red-400 transition-colors flex-shrink-0 p-1 rounded-md hover:bg-slate-800">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
             </svg>
