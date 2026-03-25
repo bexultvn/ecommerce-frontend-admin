@@ -33,14 +33,15 @@ function getSidebarHTML() {
     <aside class="w-64 bg-slate-900 h-screen flex flex-col border-r border-slate-800 overflow-y-auto">
       <!-- Brand -->
       <div class="px-5 py-5 border-b border-slate-800">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0">
-            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
-            </svg>
-          </div>
-          <span class="text-white text-base font-bold tracking-tight">ShopAdmin</span>
-        </div>
+        <a href="#/" class="flex items-center gap-2.5">
+          <svg width="32" height="32" viewBox="0 0 34 34" fill="none" class="flex-shrink-0">
+            <rect width="34" height="34" rx="9" fill="#ef4444"/>
+            <path d="M11 15V12.5a6 6 0 0112 0V15" stroke="white" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+            <rect x="7" y="15" width="20" height="13" rx="3" fill="white"/>
+            <path d="M20 21.5c0-.9-.9-1.5-3-1.5s-3 .6-3 1.5.9 1.1 3 1.6c2.1.5 3 .7 3 1.6s-.9 1.3-3 1.3-3-.7-3-1.5" stroke="#ef4444" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span class="text-white text-base font-bold tracking-tight">Shop<span class="text-red-400">ify</span></span>
+        </a>
       </div>
 
       <!-- Nav -->
