@@ -68,7 +68,7 @@ export async function init({ id }) {
 
   contentEl.innerHTML = `
     <!-- Back -->
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
       <a href="#/customers" class="flex items-center gap-2 text-gray-400 hover:text-red-400 transition-colors text-sm font-medium group">
         <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>

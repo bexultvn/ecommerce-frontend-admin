@@ -7,7 +7,7 @@ import { navigate } from '../core/router.js';
 export const template = `
   <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-wrap items-center justify-between gap-y-2 mb-6">
       <div>
         <h1 class="text-2xl font-bold text-white">Customers</h1>
         <p id="customers-count" class="text-sm text-gray-400 mt-0.5"></p>
@@ -92,12 +92,12 @@ export async function init() {
           <table class="w-full text-sm">
             <thead class="bg-gray-800/50 border-b border-gray-700">
               <tr>
-                <th class="text-left py-3 px-5 text-xs font-semibold text-gray-400 uppercase tracking-wide">Customer</th>
-                <th class="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Email</th>
-                <th class="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Address</th>
+                <th class="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Customer</th>
+                <th class="hidden md:table-cell text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Email</th>
+                <th class="hidden lg:table-cell text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Address</th>
                 <th class="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Orders</th>
-                <th class="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Total Spent</th>
-                <th class="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Joined</th>
+                <th class="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Spent</th>
+                <th class="hidden sm:table-cell text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wide">Joined</th>
                 <th class="py-3 px-4"></th>
               </tr>
             </thead>
@@ -112,25 +112,25 @@ export async function init() {
                 const { orderCount, totalSpent } = getCustomerStats(c.id);
                 return `
                   <tr class="border-b border-gray-700/50 hover:bg-gray-700/50 transition-colors cursor-pointer" data-customer-id="${c.id}">
-                    <td class="py-3.5 px-5">
+                    <td class="py-3.5 px-4">
                       <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-full ${avColor} text-white flex items-center justify-center text-sm font-bold flex-shrink-0">
                           ${initial}
                         </div>
-                        <div>
-                          <p class="font-semibold text-white">${c.firstName || ''} ${c.lastName || ''}</p>
-                          <p class="text-xs text-gray-500">ID: ${c.id}</p>
+                        <div class="min-w-0">
+                          <p class="font-semibold text-white truncate">${c.firstName || ''} ${c.lastName || ''}</p>
+                          <p class="text-xs text-gray-500 md:hidden truncate">${c.email}</p>
                         </div>
                       </div>
                     </td>
-                    <td class="py-3.5 px-4 text-gray-300">${c.email}</td>
-                    <td class="py-3.5 px-4 text-gray-500 text-xs">${addrStr}</td>
-                    <td class="py-3.5 px-4">
+                    <td class="hidden md:table-cell py-3.5 px-4 text-gray-300 max-w-48 truncate">${c.email}</td>
+                    <td class="hidden lg:table-cell py-3.5 px-4 text-gray-500 text-xs max-w-44 truncate">${addrStr}</td>
+                    <td class="py-3.5 px-4 whitespace-nowrap">
                       <span class="font-semibold text-white">${orderCount}</span>
-                      <span class="text-gray-500 text-xs ml-1">orders</span>
+                      <span class="text-gray-500 text-xs ml-1 hidden sm:inline">orders</span>
                     </td>
-                    <td class="py-3.5 px-4 font-semibold text-white">$${totalSpent.toFixed(2)}</td>
-                    <td class="py-3.5 px-4 text-gray-500 text-xs">${c.registeredDate || '—'}</td>
+                    <td class="py-3.5 px-4 font-semibold text-white whitespace-nowrap">$${totalSpent.toFixed(2)}</td>
+                    <td class="hidden sm:table-cell py-3.5 px-4 text-gray-500 text-xs whitespace-nowrap">${c.registeredDate || '—'}</td>
                     <td class="py-3.5 px-4 text-right">
                       <button data-action="delete" data-id="${c.id}"
                         class="text-gray-500 hover:text-red-400 transition-colors p-1.5 rounded-lg hover:bg-red-500/10">

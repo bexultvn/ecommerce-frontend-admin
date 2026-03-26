@@ -10,12 +10,12 @@ export const template = `
     </div>
 
     <!-- Stat Cards -->
-    <div id="stats-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8"></div>
+    <div id="stats-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8"></div>
 
     <!-- Charts Row -->
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-5">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
       <!-- Revenue Chart -->
-      <div class="xl:col-span-2 bg-gray-800 rounded-2xl border border-gray-700 p-6 shadow-sm">
+      <div class="md:col-span-2 bg-gray-800 rounded-2xl border border-gray-700 p-6 shadow-sm">
         <div class="flex items-center justify-between mb-6">
           <div>
             <h2 class="font-semibold text-white">Revenue Overview</h2>
@@ -36,7 +36,7 @@ export const template = `
     </div>
 
     <!-- Orders Chart + Recent Orders -->
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <!-- Orders Chart -->
       <div class="bg-gray-800 rounded-2xl border border-gray-700 p-6 shadow-sm">
         <div class="flex items-center justify-between mb-6">
@@ -51,7 +51,7 @@ export const template = `
       </div>
 
       <!-- Recent Orders -->
-      <div class="xl:col-span-2 bg-gray-800 rounded-2xl border border-gray-700 p-6 shadow-sm">
+      <div class="md:col-span-2 bg-gray-800 rounded-2xl border border-gray-700 p-6 shadow-sm">
         <div class="flex items-center justify-between mb-4">
           <h2 class="font-semibold text-white">Recent Orders</h2>
           <a href="#/orders" class="text-xs text-red-500 hover:text-red-400 font-medium">View all →</a>

@@ -65,7 +65,7 @@ export async function init({ id }) {
 
     contentEl.innerHTML = `
       <!-- Back + header -->
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex flex-wrap items-center justify-between gap-2 mb-6">
         <a href="#/orders" class="flex items-center gap-2 text-gray-400 hover:text-red-500 transition-colors text-sm font-medium group">
           <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -88,7 +88,7 @@ export async function init({ id }) {
           </div>
 
           <!-- Status update -->
-          <div class="flex items-center gap-3">
+          <div class="flex flex-wrap items-center gap-3">
             <label class="text-sm font-medium text-gray-300">Update Status:</label>
             <select id="status-select"
               class="border border-gray-600 rounded-xl px-3 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-red-500 bg-gray-700 text-gray-200">
@@ -103,7 +103,8 @@ export async function init({ id }) {
 
         <!-- Status stepper (only if not cancelled) -->
         ${!isCancelled ? `
-          <div class="mt-6 flex items-center gap-0">
+          <div class="mt-6 overflow-x-auto -mx-1 px-1">
+          <div class="flex items-center gap-0 min-w-64">
             ${stepOrder.map((step, i) => {
               const done = i <= currentStep;
               const active = i === currentStep;
@@ -123,6 +124,7 @@ export async function init({ id }) {
                 </div>
               `;
             }).join('')}
+          </div>
           </div>
         ` : `
           <div class="mt-5 flex items-center gap-2 text-red-500 text-sm font-medium">

@@ -22,7 +22,7 @@ function statusBadge(status) {
 export const template = `
   <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-wrap items-center justify-between gap-y-2 mb-6">
       <div>
         <h1 class="text-2xl font-bold text-white">Orders</h1>
         <p id="orders-count" class="text-sm text-gray-400 mt-0.5"></p>

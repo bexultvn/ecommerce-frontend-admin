@@ -30,9 +30,9 @@ function getSidebarHTML() {
   const initial = displayName.charAt(0).toUpperCase();
 
   return `
-    <aside class="w-64 bg-slate-900 h-screen flex flex-col border-r border-slate-800 overflow-y-auto">
+    <aside id="sidebar" class="fixed lg:relative top-0 left-0 h-screen w-64 bg-slate-900 flex flex-col border-r border-slate-800 overflow-y-auto z-50 -translate-x-full lg:translate-x-0 transition-transform duration-300">
       <!-- Brand -->
-      <div class="px-5 py-5 border-b border-slate-800">
+      <div class="px-5 py-5 border-b border-slate-800 flex items-center justify-between">
         <a href="#/" class="flex items-center gap-2.5">
           <svg width="32" height="32" viewBox="0 0 34 34" fill="none" class="flex-shrink-0">
             <rect width="34" height="34" rx="9" fill="#ef4444"/>
@@ -42,6 +42,12 @@ function getSidebarHTML() {
           </svg>
           <span class="text-white text-base font-bold tracking-tight">Shop<span class="text-red-400">ify</span></span>
         </a>
+        <!-- Close button (mobile only) -->
+        <button id="sidebar-close" class="lg:hidden text-gray-500 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors" aria-label="Close menu">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
       </div>
 
       <!-- Nav -->
@@ -91,6 +97,50 @@ function getSidebarHTML() {
   `;
 }
 
+function closeSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  if (sidebar) sidebar.classList.add('-translate-x-full');
+  if (overlay) overlay.classList.add('hidden');
+}
+
+function openSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  if (sidebar) sidebar.classList.remove('-translate-x-full');
+  if (overlay) overlay.classList.remove('hidden');
+}
+
+function wireToggleEvents() {
+  // Hamburger open button (in mobile top bar)
+  const toggleBtn = document.getElementById('sidebar-toggle');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', openSidebar);
+  }
+
+  // Overlay click → close
+  const overlay = document.getElementById('sidebar-overlay');
+  if (overlay) {
+    overlay.addEventListener('click', closeSidebar);
+  }
+
+  // Close button inside sidebar
+  const closeBtn = document.getElementById('sidebar-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeSidebar);
+  }
+
+  // Nav link clicks on mobile → close drawer
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar) {
+    sidebar.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth < 1024) closeSidebar();
+      });
+    });
+  }
+}
+
 let sidebarEventsRegistered = false;
 
 export function renderSidebar() {
@@ -106,6 +156,8 @@ export function renderSidebar() {
       navigate('/login');
     });
   }
+
+  wireToggleEvents();
 
   if (!sidebarEventsRegistered) {
     sidebarEventsRegistered = true;

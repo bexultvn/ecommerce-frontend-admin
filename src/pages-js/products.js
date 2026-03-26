@@ -7,7 +7,7 @@ import { navigate } from '../core/router.js';
 export const template = `
   <div class="max-w-7xl mx-auto">
     <!-- Header -->
-    <div class="flex items-center justify-between mb-6">
+    <div class="flex flex-wrap items-center justify-between gap-y-3 mb-6">
       <div>
         <h1 class="text-2xl font-bold text-white">Products</h1>
         <p id="products-count" class="text-sm text-gray-400 mt-0.5"></p>
@@ -101,7 +101,7 @@ export async function init() {
     } else {
       const catCls = (cat) => CATEGORY_COLORS[cat] || 'bg-gray-700 text-gray-400';
       gridEl.innerHTML = `
-        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           ${paginated.map(p => `
             <div class="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group">
               <!-- Image -->
