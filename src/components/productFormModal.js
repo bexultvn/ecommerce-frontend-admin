@@ -1,14 +1,7 @@
-import { hideModal } from './modal.js';
-
 export function showProductFormModal({ product = null, onSave }) {
   const isEdit = product !== null;
   const container = document.getElementById('modal-container');
   if (!container) return;
-
-  const categories = ['Electronics', 'Clothing', 'Books', 'Home'];
-  const categoryOptions = categories
-    .map(c => `<option value="${c}" ${product?.categoryName === c ? 'selected' : ''}>${c}</option>`)
-    .join('');
 
   const inputCls = 'w-full border border-gray-600 rounded-xl px-3 py-2.5 text-sm bg-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all';
   const labelCls = 'block text-sm font-medium text-gray-300 mb-1.5';
@@ -43,24 +36,12 @@ export function showProductFormModal({ product = null, onSave }) {
                 <input type="number" id="pf-price" value="${product?.price || ''}" min="0" step="0.01"
                   class="${inputCls}" placeholder="0.00" />
               </div>
+              ${!isEdit ? `
               <div>
-                <label class="${labelCls}">Stock</label>
-                <input type="number" id="pf-stock" value="${product?.stock ?? product?.availableQuantity ?? ''}" min="0"
+                <label class="${labelCls}">Available Quantity</label>
+                <input type="number" id="pf-quantity" min="0"
                   class="${inputCls}" placeholder="0" />
-              </div>
-            </div>
-
-            <div>
-              <label class="${labelCls}">Category</label>
-              <select id="pf-category" class="${inputCls}">
-                ${categoryOptions}
-              </select>
-            </div>
-
-            <div>
-              <label class="${labelCls}">Image URL</label>
-              <input type="text" id="pf-image" value="${product?.image || ''}"
-                class="${inputCls}" placeholder="https://..." />
+              </div>` : ''}
             </div>
 
             <div>
@@ -103,16 +84,20 @@ export function showProductFormModal({ product = null, onSave }) {
     e.preventDefault();
     const name = document.getElementById('pf-name').value.trim();
     const price = document.getElementById('pf-price').value;
-    const stock = document.getElementById('pf-stock').value;
-    const category = document.getElementById('pf-category').value;
-    const image = document.getElementById('pf-image').value.trim();
     const description = document.getElementById('pf-description').value.trim();
 
     if (!name) { alert('Product name is required'); return; }
     if (!price || isNaN(price)) { alert('Valid price is required'); return; }
-    if (stock === '' || isNaN(stock)) { alert('Valid stock quantity is required'); return; }
+
+    const saveData = { name, price, description };
+
+    if (!isEdit) {
+      const quantity = document.getElementById('pf-quantity').value;
+      if (quantity === '' || isNaN(quantity)) { alert('Valid available quantity is required'); return; }
+      saveData.available_quantity = quantity;
+    }
 
     close();
-    await onSave({ name, price, stock, category, image, description });
+    await onSave(saveData);
   });
 }

@@ -30,14 +30,6 @@ export const template = `
         <input id="search-input" type="text" placeholder="Search products..."
           class="w-full pl-9 pr-3 py-2 border border-gray-600 rounded-xl text-sm bg-gray-700 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all" />
       </div>
-      <select id="category-filter"
-        class="border border-gray-600 rounded-xl px-3 py-2 text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-gray-700">
-        <option value="">All Categories</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Clothing">Clothing</option>
-        <option value="Books">Books</option>
-        <option value="Home">Home</option>
-      </select>
     </div>
 
     <!-- Grid -->
@@ -65,16 +57,13 @@ export async function init() {
   const PAGE_SIZE = 12;
   let allProducts = await getAll();
   let searchQuery = '';
-  let categoryFilter = '';
   let currentPage = 1;
 
   function getFiltered() {
-    return allProducts
-      .filter(p => !categoryFilter || p.categoryName === categoryFilter)
-      .filter(p => !searchQuery ||
-        p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()))
-      );
+    return allProducts.filter(p => !searchQuery ||
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
   }
 
   function renderGrid() {
@@ -122,7 +111,7 @@ export async function init() {
               </div>
               <!-- Info -->
               <div class="p-4">
-                <span class="inline-block text-xs font-medium px-2 py-0.5 rounded-full ${catCls(p.categoryName)} mb-2">${p.categoryName}</span>
+                ${p.categoryName ? `<span class="inline-block text-xs font-medium px-2 py-0.5 rounded-full ${catCls(p.categoryName)} mb-2">${p.categoryName}</span>` : ''}
                 <h3 class="font-semibold text-white text-sm line-clamp-1 leading-snug mb-3 cursor-pointer hover:text-red-500 transition-colors"
                     data-navigate="/products/${p.id}">${p.name}</h3>
                 <div class="flex items-center justify-between">
@@ -229,12 +218,6 @@ export async function init() {
 
   document.getElementById('search-input').addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();
-    currentPage = 1;
-    renderGrid();
-  });
-
-  document.getElementById('category-filter').addEventListener('change', (e) => {
-    categoryFilter = e.target.value;
     currentPage = 1;
     renderGrid();
   });

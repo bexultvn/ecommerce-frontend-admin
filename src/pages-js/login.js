@@ -219,7 +219,7 @@ export function init() {
     loginBtnText.textContent = loading ? 'Signing in...' : 'Sign In';
   }
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = emailInput.value.trim();
     const password = passwordInput.value;
@@ -238,16 +238,13 @@ export function init() {
     }
 
     setLoading(true);
-    // Small delay to show loading state (auth is synchronous/local)
-    setTimeout(() => {
-      try {
-        login(email, password);
-        showToast('Welcome back!', 'success');
-        navigate('/dashboard');
-      } catch (err) {
-        setLoading(false);
-        showFieldError(passwordInput, passwordError, err.message);
-      }
-    }, 400);
+    try {
+      await login(email, password);
+      showToast('Welcome back!', 'success');
+      navigate('/dashboard');
+    } catch (err) {
+      setLoading(false);
+      showFieldError(passwordInput, passwordError, err.message);
+    }
   });
 }

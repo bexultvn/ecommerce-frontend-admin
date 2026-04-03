@@ -1,15 +1,28 @@
 import { setUser, clearUser } from '../core/auth.js';
-import { lsGetAll } from '../storage/localStorage.js';
+import { config } from '../config/config.js';
 
-export function login(email, password) {
-  const admins = lsGetAll('admin_users');
-  const admin = admins.find(a => a.email === email && a.password === password);
-  if (!admin) {
-    throw new Error('Invalid admin credentials');
+export async function login(email, password) {
+  const res = await fetch(`${config.BASE_URL}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || 'Invalid credentials');
   }
-  const { password: _pw, ...safeAdmin } = admin;
-  setUser(safeAdmin);
-  return safeAdmin;
+
+  const data = await res.json();
+  const userToStore = {
+    uid: data.user.uid,
+    email: data.user.email,
+    token: data.access_token,
+    refresh_token: data.refresh_token,
+    role: 'admin',
+  };
+  setUser(userToStore);
+  return userToStore;
 }
 
 export function logout() {

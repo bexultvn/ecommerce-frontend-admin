@@ -1,42 +1,41 @@
-import { apiGet, apiDelete } from './api.js';
-import { lsGetAll, lsSet } from '../storage/localStorage.js';
+import { getUser } from '../core/auth.js';
 import { config } from '../config/config.js';
+
+function authHeaders() {
+  const user = getUser();
+  const headers = { 'Content-Type': 'application/json' };
+  if (user?.token) headers['Authorization'] = `Bearer ${user.token}`;
+  return headers;
+}
 
 function normalize(c) {
   return {
-    id: c.id,
-    firstName: c.firstName || c.firstname,
-    lastName: c.lastName || c.lastname,
+    id: c.uid,
+    firstName: c.first_name,
+    lastName: c.last_name,
     email: c.email,
-    address: c.address || { street: '', houseNumber: '', zipCode: '' },
-    registeredDate: c.registeredDate || null
+    registeredDate: c.created_at ? new Date(c.created_at).toLocaleDateString() : null,
+    is_verified: c.is_verified,
   };
 }
 
 export async function findAllCustomers() {
-  if (config.USE_MOCK) {
-    return lsGetAll('users').map(normalize);
-  }
-  return (await apiGet('/customer')).map(normalize);
+  const res = await fetch(`${config.BASE_URL}/users/`, { headers: authHeaders() });
+  if (!res.ok) throw new Error('Failed to fetch customers');
+  const data = await res.json();
+  return data.map(normalize);
 }
 
 export async function findCustomerById(id) {
-  if (config.USE_MOCK) {
-    const user = lsGetAll('users').find(u => u.id === String(id));
-    return user ? normalize(user) : null;
-  }
   try {
-    return normalize(await apiGet(`/customer/${id}`));
+    const res = await fetch(`${config.BASE_URL}/users/${id}`, { headers: authHeaders() });
+    if (!res.ok) return null;
+    return normalize(await res.json());
   } catch {
     return null;
   }
 }
 
-export async function deleteCustomer(id) {
-  if (config.USE_MOCK) {
-    const updated = lsGetAll('users').filter(u => u.id !== String(id));
-    lsSet('users', updated);
-    return;
-  }
-  return apiDelete(`/customer/${id}`);
+export async function deleteCustomer(_id) {
+  throw new Error('Delete customer is not supported yet');
 }

@@ -100,7 +100,7 @@ export async function init({ id }) {
         <!-- Info panel -->
         <div class="md:col-span-3 p-8">
           <div class="flex items-start gap-3 mb-2">
-            <span class="text-xs font-semibold px-2.5 py-1 rounded-full ${catCls}">${product.categoryName}</span>
+            ${product.categoryName ? `<span class="text-xs font-semibold px-2.5 py-1 rounded-full ${catCls}">${product.categoryName}</span>` : ''}
             <span class="text-xs font-semibold px-2.5 py-1 rounded-full ${stockCfg.cls}">${stockCfg.label}</span>
           </div>
 
@@ -124,7 +124,7 @@ export async function init({ id }) {
             </div>
             <div>
               <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Category</p>
-              <p class="text-sm text-gray-300">${product.categoryName}</p>
+              <p class="text-sm text-gray-300">${product.categoryName || '—'}</p>
             </div>
             <div>
               <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Price</p>
@@ -132,7 +132,7 @@ export async function init({ id }) {
             </div>
             <div>
               <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Stock</p>
-              <p class="text-sm text-gray-300">${stock} units</p>
+              <p class="text-sm text-gray-300">${stock !== null ? `${stock} units` : '—'}</p>
             </div>
           </div>
         </div>
