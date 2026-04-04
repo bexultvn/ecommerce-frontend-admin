@@ -4,29 +4,29 @@ import { renderSidebar } from '../components/sidebar.js';
 const PUBLIC_ROUTES = ['/login'];
 
 const routes = {
-  '':           () => import('../pages-js/dashboard.js'),
-  '/':          () => import('../pages-js/dashboard.js'),
-  '/login':     () => import('../pages-js/login.js'),
-  '/dashboard': () => import('../pages-js/dashboard.js'),
-  '/products':  () => import('../pages-js/products.js'),
-  '/customers': () => import('../pages-js/customers.js'),
-  '/orders':    () => import('../pages-js/orders.js'),
+  '':           () => import('../pages/dashboard.js'),
+  '/':          () => import('../pages/dashboard.js'),
+  '/login':     () => import('../pages/login.js'),
+  '/dashboard': () => import('../pages/dashboard.js'),
+  '/products':  () => import('../pages/products.js'),
+  '/customers': () => import('../pages/customers.js'),
+  '/orders':    () => import('../pages/orders.js'),
 };
 
 const dynamicRoutes = [
   {
     pattern: /^\/products\/(.+)$/,
-    loader: () => import('../pages-js/productDetail.js'),
+    loader: () => import('../pages/productDetail.js'),
     paramKey: 'id'
   },
   {
     pattern: /^\/customers\/(.+)$/,
-    loader: () => import('../pages-js/customerDetail.js'),
+    loader: () => import('../pages/customerDetail.js'),
     paramKey: 'id'
   },
   {
     pattern: /^\/orders\/(.+)$/,
-    loader: () => import('../pages-js/orderDetail.js'),
+    loader: () => import('../pages/orderDetail.js'),
     paramKey: 'id'
   },
 ];
