@@ -55,7 +55,17 @@ function stockBadge(stock) {
 
 export async function init() {
   const PAGE_SIZE = 12;
-  let allProducts = await getAll();
+  let allProducts = [];
+  try {
+    allProducts = await getAll();
+  } catch (err) {
+    document.getElementById('products-grid').innerHTML = `
+      <div class="bg-gray-800 rounded-2xl border border-gray-700 p-16 text-center shadow-sm">
+        <p class="text-red-400 font-medium">Failed to load products</p>
+        <p class="text-gray-500 text-sm mt-1">${err.message}</p>
+      </div>`;
+    return;
+  }
   let searchQuery = '';
   let currentPage = 1;
 

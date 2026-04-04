@@ -45,7 +45,17 @@ function avatarColor(id) {
 
 export async function init() {
   const PAGE_SIZE = 10;
-  let allCustomers = await findAllCustomers();
+  let allCustomers = [];
+  try {
+    allCustomers = await findAllCustomers();
+  } catch (err) {
+    document.getElementById('customers-table').innerHTML = `
+      <div class="p-16 text-center">
+        <p class="text-red-400 font-medium">Failed to load customers</p>
+        <p class="text-gray-500 text-sm mt-1">${err.message}</p>
+      </div>`;
+    return;
+  }
   const allOrders = lsGetAll('orders');
   let searchQuery = '';
   let currentPage = 1;

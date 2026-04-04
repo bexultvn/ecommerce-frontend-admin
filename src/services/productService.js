@@ -1,5 +1,6 @@
 import { getUser } from '../core/auth.js';
 import { config } from '../config/config.js';
+import { mockProducts } from '../storage/mockData.js';
 
 function authHeaders() {
   const user = getUser();
@@ -21,13 +22,17 @@ function normalize(p) {
   };
 }
 
+let mockStore = [...mockProducts];
+
 export async function getAll() {
+  if (config.MOCK.products) return [...mockStore];
   const res = await fetch(`${config.BASE_URL}/products/`);
   if (!res.ok) throw new Error('Failed to fetch products');
   return (await res.json()).map(normalize);
 }
 
 export async function getById(id) {
+  if (config.MOCK.products) return mockStore.find(p => p.id === id) || null;
   try {
     const res = await fetch(`${config.BASE_URL}/products/${id}`);
     if (!res.ok) return null;
@@ -38,6 +43,21 @@ export async function getById(id) {
 }
 
 export async function createProduct(data) {
+  if (config.MOCK.products) {
+    const newProduct = {
+      id: String(Date.now()),
+      name: data.name,
+      description: data.description,
+      price: parseFloat(data.price),
+      stock: parseInt(data.available_quantity, 10),
+      availableQuantity: parseInt(data.available_quantity, 10),
+      categoryName: null,
+      image: null,
+      rating: 0,
+    };
+    mockStore.push(newProduct);
+    return newProduct;
+  }
   const res = await fetch(`${config.BASE_URL}/products/`, {
     method: 'POST',
     headers: authHeaders(),
@@ -56,6 +76,12 @@ export async function createProduct(data) {
 }
 
 export async function updateProduct(id, data) {
+  if (config.MOCK.products) {
+    const idx = mockStore.findIndex(p => p.id === id);
+    if (idx === -1) throw new Error('Product not found');
+    mockStore[idx] = { ...mockStore[idx], name: data.name, description: data.description, price: parseFloat(data.price) };
+    return mockStore[idx];
+  }
   const res = await fetch(`${config.BASE_URL}/products/${id}`, {
     method: 'PATCH',
     headers: authHeaders(),
@@ -73,6 +99,10 @@ export async function updateProduct(id, data) {
 }
 
 export async function deleteProduct(id) {
+  if (config.MOCK.products) {
+    mockStore = mockStore.filter(p => p.id !== id);
+    return;
+  }
   const res = await fetch(`${config.BASE_URL}/products/${id}`, {
     method: 'DELETE',
     headers: authHeaders(),

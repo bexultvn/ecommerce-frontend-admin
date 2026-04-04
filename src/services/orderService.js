@@ -5,14 +5,14 @@ import { config } from '../config/config.js';
 const ORDERS_KEY = 'orders';
 
 export async function getAllOrders() {
-  if (config.USE_MOCK) {
+  if (config.MOCK.orders) {
     return lsGetAll(ORDERS_KEY);
   }
   return apiGet('/orders');
 }
 
 export async function updateOrderStatus(id, status) {
-  if (config.USE_MOCK) {
+  if (config.MOCK.orders) {
     const orders = lsGetAll(ORDERS_KEY);
     const idx = orders.findIndex(o => o.id === String(id));
     if (idx === -1) throw new Error('Order not found');
