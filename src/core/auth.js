@@ -21,6 +21,10 @@ export function clearUser() {
   eventBus.emit('auth:changed', null);
 }
 
+export function getAccessToken() {
+  return getUser()?.access_token || null;
+}
+
 export function isLoggedIn() {
   return getUser() !== null;
 }
