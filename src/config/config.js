@@ -11,7 +11,7 @@ export const config = {
   MOCK: {
     auth: false,
     products: false,
-    customers: true,
+    customers: false,
     orders: true,
   },
 
